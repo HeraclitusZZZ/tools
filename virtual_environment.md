@@ -125,3 +125,101 @@ Only directory locations matter.
 When Python is starting up, it looks at the path of its binary. In a virtual environment, it is actually just a copy of, or symlink to, your system’s Python binary. It then sets the location of `sys.prefix` and `sys.exec_prefix` based on this location, omitting the `bin` portion of the path.
 
 The path located in `sys.prefix` is then used for locating the `site-packages` directory by searching the relative path `lib/pythonX.X/site-packages/`, where X.X is the version of Python you’re using.
+
+## Managing Virtual Environment with Anaconda
+
+With conda, you can create, export, list, remove, and update environments that have different versions of Python and/or packages installed in them. Switching or moving between environments is called activating the environment. You can also share an environment file.
+
+By default, environments are installed into the `envs` directory in your conda directory. Run `conda create --help` for information on specifying a different path.
+
+1. Use the terminal or an Anaconda Prompt for the following steps:
+
+```console
+conda create --name myenv
+```
+
+Replace `myenv` with the environment name.
+
+2. When conda asks you to proceed, type `y`:
+
+```console
+proceed ([y]/n)?
+```
+
+This creates the myenv environment in `/envs/`. No packages will be installed in this environment.
+
+3. To create an environment with a specific version of Python:
+
+```console
+conda create -n myenv python=3.6
+```
+
+4. To create an environment with a specific package:
+
+```console
+conda create -n myenv scipy
+```
+
+or
+
+```console
+conda create -n myenv python
+conda install -n myenv scipy
+```
+
+5. To create an environment with a specific version of a package:
+
+```console
+conda create -n myenv scipy=0.15.0
+```
+
+or
+
+```console
+conda create -n myenv python
+conda install -n myenv scipy=0.15.0
+```
+
+6. To create an environment with a specific version of Python and multiple packages:
+
+```console
+conda create -n myenv python=3.6 scipy=0.15.0 astroid babel
+```
+
+To automatically install pip or another program every time a new environment is created, add the default programs to the create_default_packages section of your `.condarc` configuration file. The default packages are installed every time you create a new environment. If you do not want the default packages installed in a particular environment, use the `--no-default-packages` flag:
+
+```console
+conda create --no-default-packages -n myenv python
+```
+
+## Creating an environment from an environment.yml file
+
+Use the terminal or an Anaconda Prompt for the following steps:
+
+1. Create the environment from the `environment.yml` file:
+
+```console
+conda env create -f environment.yml
+```
+
+The first line of the `yml` file sets the new environment's name.
+
+2. Activate the new environment: `conda activate myenv`
+
+3. Verify that the new environment was installed correctly:
+
+```console
+conda env list
+```
+
+You can also use `conda info --envs`.
+
+## Activating an Environment
+
+Activating environments is essential to making the software in the environments work well. Activation entails two primary functions: adding entries to PATH for the environment and running any activation scripts that the environment may contain. These activation scripts are how packages can set arbitrary environment variables that may be necessary for their operation.
+
+When installing Anaconda, you have the option to “Add Anaconda to my PATH environment variable.” This is not recommended because the add to PATH option appends Anaconda to PATH. When the installer appends to PATH, it does not call the activation scripts.
+
+Activation prepends to `PATH`. This only takes effect when you have the environment active so it is local to a terminal session, not global.
+
+To activate an environment: `conda activate myenv`
