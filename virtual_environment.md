@@ -15,3 +15,6 @@ Third party packages installed using `easy_install` or `pip` are typically place
 import site
 site.getsitepackages()
 ```
+
+It’s important to know this because, by default, every project on your system will use these same directories to store and retrieve **site packages** (third party libraries). At first glance, this may not seem like a big deal, and it isn’t really, for **system packages** (packages that are part of the standard Python library), but it does matter for **site packages**.
+
