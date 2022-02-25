@@ -89,3 +89,39 @@ deactivate
 ```
 
 Now your shell session is back to normal, and the python command refers to the global Python install. Remember to do this whenever you’re done using a specific virtual environment.
+
+## How Does a Virtual Environment Work?
+
+What exactly does it mean to `activate` an environment? Knowing what’s going on under the hood can be pretty important for a developer, especially when you need to understand execution environments, dependency resolution, and so on.
+
+To explain how this works, let’s first check out the locations of the different python executables. With the environment `deactivated`, run the following:
+
+```console
+which python
+```
+
+Now, `activate` it and run the command again:
+
+```console
+source env/bin/activate
+which python
+```
+
+After activating the environment, we’re now getting a different path for the python executable because, in an active environment, the `$PATH` environment variable is slightly modified.
+
+Notice the difference between the first path in `$PATH` before and after the activation:
+
+```console
+echo $PATH
+
+source env/bin/activate
+echo $PATH
+```
+
+In the latter example, our virtual environment’s `bin` directory is now at the beginning of the path. That means it’s the first directory searched when running an executable on the command line. Thus, the shell uses our virtual environment’s instance of Python instead of the system-wide version.
+
+Only directory locations matter.
+
+When Python is starting up, it looks at the path of its binary. In a virtual environment, it is actually just a copy of, or symlink to, your system’s Python binary. It then sets the location of `sys.prefix` and `sys.exec_prefix` based on this location, omitting the `bin` portion of the path.
+
+The path located in `sys.prefix` is then used for locating the `site-packages` directory by searching the relative path `lib/pythonX.X/site-packages/`, where X.X is the version of Python you’re using.
