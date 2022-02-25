@@ -58,7 +58,34 @@ Create a new virtual environment inside the directory:
 python3 -m venv env
 ```
 
+In the above example, this command creates a directory called `env`, which contains a directory structure similar to this:
 
+```console
+placeholder
+```
 
+Here’s what each folder contains:
 
+- bin: files that interact with the virtual environment
+- include: C headers that compile the Python packages
+- lib: a copy of the Python version along with a `site-packages` folder where each dependency is installed
 
+Further, there are copies of, or `symlinks` to, a few different Python tools as well as to the Python executables themselves. These files are used to ensure that all Python code and commands are executed within the context of the current environment, which is how the isolation from the global environment is achieved. We’ll explain this in more detail in the next section.
+
+More interesting are the **activate scripts** in the bin directory. These scripts are used to set up your shell to use the environment’s Python executable and its `site-packages` by default.
+
+In order to use this environment’s packages/resources in isolation, you need to `activate` it. To do this, just run the following:
+
+```console
+source env/bin/activate
+```
+
+Notice how your prompt is now prefixed with the name of your environment (env, in our case). This is the indicator that env is currently active, which means the python executable will only use this environment’s packages and settings.
+
+We can go back to the `system` context by executing deactivate:
+
+```console
+deactivate
+```
+
+Now your shell session is back to normal, and the python command refers to the global Python install. Remember to do this whenever you’re done using a specific virtual environment.
